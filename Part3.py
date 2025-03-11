@@ -8,46 +8,47 @@ import sympy as sp
 import numpy as np 
 import matplotlib.pyplot as plt
 
-#Definicion de la funcion general y algunas variables
+# Definición de la función general y algunas variables
 x = sp.symbols('x')
-fx = (x**3 - 3*x**2 + 3*x -1)/(x**2-2*x)
-numerador = x**3 - 3*x**2 + 3*x -1
-denominador = x**2-2*x
-valor_invalido = sp.solve(denominador,x)
+fx = (x**3 - 3*x**2 + 3*x - 1) / (x**2 - 2*x)
+numerador = x**3 - 3*x**2 + 3*x - 1
+denominador = x**2 - 2*x
+valor_invalido = sp.solve(denominador, x)
 
-#Calculando el dominio de la funcion 
-#Se procede a calcular el dominio mediante el denominador
-dominio = x**2-2*x
+# Calculando el dominio de la función
+dominio = x**2 - 2*x
 encontrar_dominio = sp.solve(dominio)
-print('La funcion se indefine en:',encontrar_dominio)
-dominio = f"Todos los numeros reales menos x = {encontrar_dominio}"
-print('El dominio de la funcion es:',dominio)
+print('La función se indefine en:', encontrar_dominio)
+dominio = f"Todos los números reales menos x = {encontrar_dominio}"
+print('El dominio de la función es:', dominio)
 
-#Calculando la interseccion de los ejes x e y 
-#Interseccion eje x
-inter_x = sp.solve(numerador,x)
-sol_no_en_dominio = sp.solve(denominador,x)
+# Calculando la intersección de los ejes x e y
+# Intersección eje x
+inter_x = sp.solve(numerador, x)
+sol_no_en_dominio = sp.solve(denominador, x)
 intersecciones_x = [sol for sol in inter_x if sol not in sol_no_en_dominio]
-print('Interseccion con el eje x:',intersecciones_x)
+print('Intersección con el eje x:', intersecciones_x)
 
-#Interseccion eje y
-#revisar esta funcion porque no me da lo que quiero 
+# Intersección eje y
 try:
-    inter_y = fx.subs(x,0)
-    print("Intersección con el eje y:", inter_y)
+    # Verificar si x = 0 está en el dominio
+    if 0 in valor_invalido:
+        print("No hay intersección con el eje y (x = 0 no está en el dominio).")
+    else:
+        inter_y = fx.subs(x, 0)
+        print("Intersección con el eje y:", inter_y)
 except ZeroDivisionError:
     print("No hay intersección con el eje y (x = 0 no está en el dominio).")
 
-#Calculando asintotas verticales, horizontales y oblicuas
-#Asintota vertical
+# Calculando asíntotas verticales, horizontales y oblicuas
+# Asíntota vertical
 asintota_vertical = []
 for valor in valor_invalido:
-    numerador
-    if numerador.subs(x,0) !=0:
+    if numerador.subs(x, valor) != 0:
         asintota_vertical.append(valor)
-print('Las asintotas verticales son:',asintota_vertical)
+print('Las asíntotas verticales son:', asintota_vertical)
 
-#Asintota horizontal
+# Asíntota horizontal
 grado_numerador = sp.degree(numerador)
 grado_denominador = sp.degree(denominador)
 if grado_numerador < grado_denominador:
@@ -60,27 +61,26 @@ else:
     asintota_horizontal = None
 print("Asíntota horizontal:", asintota_horizontal)
 
-#Asintota Oblicua
+# Asíntota oblicua
 if grado_numerador == grado_denominador + 1:
-    # Realizar la división polinómica
     cociente, residuo = sp.div(numerador, denominador)
     asintota_oblicua = cociente
     print("Asíntota oblicua:", asintota_oblicua)
 else:
     print("No hay asíntota oblicua.")
 
-#Calculando la primera y segunda derivada
-derivada_1 = sp.diff(fx,x)
+# Calculando la primera y segunda derivada
+derivada_1 = sp.diff(fx, x)
 derivada_1_simplificada = sp.simplify(derivada_1)
-print('La primera derivada es:',derivada_1_simplificada)
-derivada_2 = sp.diff(derivada_1,x)
+print('La primera derivada es:', derivada_1_simplificada)
+derivada_2 = sp.diff(derivada_1, x)
 derivada_2_simplificada = sp.simplify(derivada_2)
 print('La segunda derivada es:', derivada_2_simplificada)
 
-#Graficar las funciones f, f', f''
-funcion_numerica = sp.lambdify(x,fx,'numpy')
-funcion_derivada1 = sp.lambdify(x,derivada_1,'numpy')
-funcion_derivada2 = sp.lambdify(x,derivada_2,'numpy')
+# Graficar las funciones f, f', f''
+funcion_numerica = sp.lambdify(x, fx, 'numpy')
+funcion_derivada1 = sp.lambdify(x, derivada_1, 'numpy')
+funcion_derivada2 = sp.lambdify(x, derivada_2, 'numpy')
 
 x_vals = np.linspace(-5, 5, 1000)
 x_vals = x_vals[~np.isclose(x_vals, 0, atol=0.01)]  # Evitar x = 0
@@ -88,8 +88,8 @@ x_vals = x_vals[~np.isclose(x_vals, 2, atol=0.01)]  # Evitar x = 2
 
 # Calcular los valores de f, f' y f''
 y_f = funcion_numerica(x_vals)
-y_f_prime = funcion_derivada1(x_vals)
-y_f_double_prime = funcion_derivada2(x_vals)
+y_f_derivada1 = funcion_derivada1(x_vals)
+y_f_derivada2 = funcion_derivada2(x_vals)
 
 # Graficar las funciones
 plt.figure(figsize=(10, 6))
@@ -98,10 +98,10 @@ plt.figure(figsize=(10, 6))
 plt.plot(x_vals, y_f, label='$f(x)$', color='blue')
 
 # Graficar f'(x)
-plt.plot(x_vals, y_f_prime, label="$f'(x)$", color='red')
+plt.plot(x_vals, y_f_derivada1, label="$f'(x)$", color='red')
 
 # Graficar f''(x)
-plt.plot(x_vals, y_f_double_prime, label="$f''(x)$", color='green')
+plt.plot(x_vals, y_f_derivada2, label="$f''(x)$", color='green')
 
 # Añadir detalles a la gráfica
 plt.axhline(0, color='black', linewidth=0.5, linestyle='--')  # Eje x
@@ -114,3 +114,60 @@ plt.grid(True)
 plt.xlim(-5, 5)  # Limitar el rango de x para mejor visualización
 plt.ylim(-10, 10)  # Limitar el rango de y para mejor visualización
 plt.show()
+
+# Calculando los intervalos crecientes y decrecientes de la función dada
+critico_derivada = sp.solve(derivada_1_simplificada, x)
+critico_derivada.extend(valor_invalido)  # Añadir puntos donde f'(x) no está definida
+critico_derivada = sorted(critico_derivada)  # Ordenar los puntos críticos
+
+# Definir intervalos para analizar el signo de f'(x)
+intervalos = []
+for i in range(len(critico_derivada) - 1):
+    intervalo = (critico_derivada[i], critico_derivada[i + 1])
+    intervalos.append(intervalo)
+
+# Analizar el signo de f'(x) en cada intervalo
+crecimiento = []
+for intervalo in intervalos:
+    # Tomar un punto de prueba en el intervalo
+    punto_prueba = (intervalo[0] + intervalo[1]) / 2
+    # Evaluar f'(x) en el punto de prueba
+    signo = derivada_1_simplificada.subs(x, punto_prueba)
+    if signo > 0:
+        crecimiento.append((intervalo, "Creciente"))
+    elif signo < 0:
+        crecimiento.append((intervalo, "Decreciente"))
+
+# Mostrar resultados
+print("\nIntervalos de crecimiento y decrecimiento:")
+for intervalo, tipo in crecimiento:
+    print(f"En {intervalo}: {tipo}")
+
+# Calculando los intervalos de concavidad
+# Puntos críticos de la segunda derivada (donde f''(x) = 0 o no está definida)
+critico_derivada2 = sp.solve(derivada_2_simplificada, x)
+critico_derivada2.extend(valor_invalido)  # Añadir puntos donde f''(x) no está definida
+critico_derivada2 = sorted(critico_derivada2)  # Ordenar los puntos críticos
+
+# Definir intervalos para analizar el signo de f''(x)
+intervalos_concavidad = []
+for i in range(len(critico_derivada2) - 1):
+    intervalo = (critico_derivada2[i], critico_derivada2[i + 1])
+    intervalos_concavidad.append(intervalo)
+
+# Analizar el signo de f''(x) en cada intervalo
+concavidad = []
+for intervalo in intervalos_concavidad:
+    # Tomar un punto de prueba en el intervalo
+    punto_prueba = (intervalo[0] + intervalo[1]) / 2
+    # Evaluar f''(x) en el punto de prueba
+    signo = derivada_2_simplificada.subs(x, punto_prueba)
+    if signo > 0:
+        concavidad.append((intervalo, "Cóncava hacia arriba"))
+    elif signo < 0:
+        concavidad.append((intervalo, "Cóncava hacia abajo"))
+
+# Mostrar resultados
+print("\nIntervalos de concavidad:")
+for intervalo, tipo in concavidad:
+    print(f"En {intervalo}: {tipo}")
