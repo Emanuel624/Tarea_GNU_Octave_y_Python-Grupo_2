@@ -123,10 +123,12 @@ for intervalo in intervalos:
         crecimiento.append((intervalo, "Creciente"))
     elif signo < 0:
         crecimiento.append((intervalo, "Decreciente"))
-# Mostrar resultados corregidos
-print("\nIntervalos de crecimiento y decrecimiento corregidos:")
+# Mostrar resultados 
+print("\nIntervalos de crecimiento y decrecimiento:")
 for intervalo, tipo in crecimiento:
-    print(f"En {intervalo}: {tipo}")
+    a, b = intervalo
+    print(f"En ]{a}, {b}[: {tipo}")
+    
 
 
 # Calculando los intervalos de concavidad
@@ -182,8 +184,9 @@ for intervalo in intervalos_concavidad:
 # Mostrar resultados
 print("\nIntervalos de concavidad:")
 for intervalo, tipo in concavidad:
-    print(f"En {intervalo}: {tipo}")
-
+    a, b = intervalo
+    print(f"En ]{a}, {b}[: {tipo}")
+    
 
 # Graficar las funciones f, f', f''
 funcion_numerica = sp.lambdify(x, fx, 'numpy')
