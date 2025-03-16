@@ -1,3 +1,8 @@
+#Fernando Fuchs Mora.
+#Javier Tenorio Cervantes.
+#Randall Bolaños Lopez.
+#Emanuel Chavarría Hernández.
+
 # Códigos ANSI
 RED = "\033[91m"
 GREEN = "\033[92m"

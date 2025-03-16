@@ -1,3 +1,8 @@
+%Fernando Fuchs Mora.
+%Javier Tenorio Cervantes.
+%Randall Bolaños Lopez.
+%Emanuel Chavarría Hernández.
+
 % Funcion que crea una Matriz Pentadiagonal, en
 % donde todos los elementos que estan fuera de la
 % diagonal principal y las dos diagonales adyacentes

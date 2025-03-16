@@ -1,3 +1,8 @@
+%Fernando Fuchs Mora.
+%Javier Tenorio Cervantes.
+%Randall Bolaños Lopez.
+%Emanuel Chavarría Hernández.
+
 % Programa para resolver el sistema de ecuaciones Ax = h
 % haciendo uso de la Funcion de la Matriz Pentadiagonal.
 clc; clear; close all;
